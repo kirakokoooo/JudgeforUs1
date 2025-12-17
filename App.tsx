@@ -54,9 +54,16 @@ const App = () => {
   const handleGenerateArgs = async () => {
     if (!draftInput.trim()) return;
     setIsLoading(true);
-    const args = await generateArguments(gameState.topic, draftInput);
-    setGeneratedArgs(args);
-    setIsLoading(false);
+    try {
+      const args = await generateArguments(gameState.topic, draftInput);
+      setGeneratedArgs(args);
+    } catch (e) {
+      console.error("Error generating args:", e);
+      // Fallback in case the service didn't handle it
+      setGeneratedArgs(["请手动输入...", "网络好像卡了"]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleToggleArg = (arg: string, playerId: 1 | 2) => {
@@ -172,47 +179,52 @@ const App = () => {
       }
     }
 
-    // Call API
-    const result = await simulateBattleRound(
-      gameState.topic,
-      finalP1Arg,
-      gameState.p1.nickname,
-      finalP2Arg,
-      gameState.p2.nickname,
-      isP1Manual,
-      isP2Manual
-    );
-
-    // Turn off "Processing" (Brawl animation)
-    setGameState(prev => ({ ...prev, isBattleProcessing: false }));
-
-    // Start visual playback
-    await playDialogueAnimation(result.dialogue);
-
-    // Update Game State with result
-    setGameState(prev => {
-      const p1Votes = Math.round(result.voteP1); 
-      const winnerId = p1Votes > 50 ? 1 : p1Votes < 50 ? 2 : 0;
-      
-      const newRound: BattleRound = {
-        roundNumber: roundIdx + 1,
-        p1Arg: finalP1Arg,
-        p2Arg: finalP2Arg,
+    try {
+      // Call API
+      const result = await simulateBattleRound(
+        gameState.topic,
+        finalP1Arg,
+        gameState.p1.nickname,
+        finalP2Arg,
+        gameState.p2.nickname,
         isP1Manual,
-        isP2Manual,
-        dialogue: result.dialogue,
-        voteP1: p1Votes,
-        winnerId,
-        reason: result.reason
-      };
+        isP2Manual
+      );
 
-      return {
-        ...prev,
-        rounds: [...prev.rounds, newRound],
-        totalP1Votes: prev.totalP1Votes + p1Votes,
-        totalP2Votes: prev.totalP2Votes + (100 - p1Votes),
-      };
-    });
+      // Start visual playback
+      await playDialogueAnimation(result.dialogue);
+
+      // Update Game State with result
+      setGameState(prev => {
+        const p1Votes = Math.round(result.voteP1); 
+        const winnerId = p1Votes > 50 ? 1 : p1Votes < 50 ? 2 : 0;
+        
+        const newRound: BattleRound = {
+          roundNumber: roundIdx + 1,
+          p1Arg: finalP1Arg,
+          p2Arg: finalP2Arg,
+          isP1Manual,
+          isP2Manual,
+          dialogue: result.dialogue,
+          voteP1: p1Votes,
+          winnerId,
+          reason: result.reason
+        };
+
+        return {
+          ...prev,
+          rounds: [...prev.rounds, newRound],
+          totalP1Votes: prev.totalP1Votes + p1Votes,
+          totalP2Votes: prev.totalP2Votes + (100 - p1Votes),
+        };
+      });
+    } catch (e) {
+      console.error("Round Error", e);
+      // If error occurs, we must exit processing state or user is stuck
+    } finally {
+       // Turn off "Processing" (Brawl animation)
+       setGameState(prev => ({ ...prev, isBattleProcessing: false }));
+    }
     
     setManualBattleInput("");
   }, [gameState.currentRoundIndex, gameState.p1, gameState.p2, gameState.topic]);

@@ -279,7 +279,7 @@ const App = () => {
   if (gameState.phase === AppPhase.SETUP) {
     return (
       <div className="min-h-screen p-4 flex flex-col items-center justify-center max-w-2xl mx-auto">
-        <h1 className="text-6xl font-handwriting mb-8 text-center animate-float tracking-widest text-[#2D3748]">都来评评理</h1>
+        <h1 className="text-4xl md:text-6xl font-handwriting mb-4 md:mb-8 text-center animate-float tracking-widest text-[#2D3748]">都来评评理</h1>
         
         <SketchBox className="w-full mb-8" color="white">
           <div className="flex justify-around items-end mb-6">
@@ -287,18 +287,18 @@ const App = () => {
               <StickFigureAvatar id={1} name={gameState.p1.nickname} showName={false} />
               <SketchInput 
                 placeholder="昵称 1" 
-                className="w-32 text-center mt-4 text-indigo-700 font-bold"
+                className="w-24 md:w-32 text-center mt-2 md:mt-4 text-indigo-700 font-bold"
                 maxLength={8}
                 value={gameState.p1.nickname}
                 onChange={(e) => setGameState(prev => ({ ...prev, p1: { ...prev.p1, nickname: e.target.value } }))}
               />
             </div>
-            <div className="text-6xl font-handwriting mb-12 text-gray-300 font-bold">VS</div>
+            <div className="text-4xl md:text-6xl font-handwriting mb-8 md:mb-12 text-gray-300 font-bold">VS</div>
             <div className="flex flex-col items-center group">
               <StickFigureAvatar id={2} name={gameState.p2.nickname} showName={false} />
               <SketchInput 
                 placeholder="昵称 2" 
-                className="w-32 text-center mt-4 text-orange-700 font-bold"
+                className="w-24 md:w-32 text-center mt-2 md:mt-4 text-orange-700 font-bold"
                 maxLength={8}
                 value={gameState.p2.nickname}
                 onChange={(e) => setGameState(prev => ({ ...prev, p2: { ...prev.p2, nickname: e.target.value } }))}
@@ -306,10 +306,10 @@ const App = () => {
             </div>
           </div>
           
-          <div className="mt-8 bg-yellow-50 p-4 border-crayon-sm border-2 border-yellow-200">
-            <label className="block font-handwriting text-2xl mb-2 text-center text-gray-700">✍️ 吵架问题：</label>
+          <div className="mt-4 md:mt-8 bg-yellow-50 p-2 md:p-4 border-crayon-sm border-2 border-yellow-200">
+            <label className="block font-handwriting text-xl md:text-2xl mb-2 text-center text-gray-700">✍️ 吵架问题：</label>
             <SketchInput 
-              placeholder="需双方协商一致后填入（25字内）" 
+              placeholder="协商后填入（25字内）" 
               maxLength={25}
               value={gameState.topic}
               className="text-center text-gray-800"
@@ -318,7 +318,7 @@ const App = () => {
           </div>
         </SketchBox>
 
-        <SketchButton onClick={handleSetupComplete} className="w-full text-2xl py-4 shadow-xl hover:-translate-y-1">
+        <SketchButton onClick={handleSetupComplete} className="w-full text-xl md:text-2xl py-3 md:py-4 shadow-xl hover:-translate-y-1">
           🔥 开始吵架！ 🔥
         </SketchButton>
       </div>
@@ -330,30 +330,30 @@ const App = () => {
     const currentPlayer = isP1 ? gameState.p1 : gameState.p2;
 
     return (
-      <div className="min-h-screen p-4 max-w-4xl mx-auto flex flex-col">
-        <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
+      <div className="min-h-screen p-2 md:p-4 max-w-4xl mx-auto flex flex-col">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
+            <div className="flex items-center gap-2 md:gap-4">
                <StickFigureAvatar id={isP1 ? 1 : 2} name={currentPlayer.nickname} size="sm" showName={false} />
-               <h2 className="text-4xl font-handwriting text-gray-800">
+               <h2 className="text-2xl md:text-4xl font-handwriting text-gray-800">
                  <span className={isP1 ? "text-indigo-600" : "text-orange-600"}>{currentPlayer.nickname}</span> 的回合
                </h2>
             </div>
             {/* Valid arguments prompt: At least 3 */}
-            <div className={`font-handwriting text-xl bg-white px-4 py-2 border-2 border-gray-800 border-crayon-sm shadow-md ${currentPlayer.team.length < 3 ? 'text-red-500 animate-pulse' : 'text-green-600'}`}>
+            <div className={`font-handwriting text-base md:text-xl bg-white px-3 py-1 md:px-4 md:py-2 border-2 border-gray-800 border-crayon-sm shadow-md self-start md:self-auto ${currentPlayer.team.length < 3 ? 'text-red-500 animate-pulse' : 'text-green-600'}`}>
                已选观点: {currentPlayer.team.length} (至少3个)
             </div>
         </div>
 
-        <SketchBox className="mb-6" color={isP1 ? 'blue' : 'yellow'}>
-           <div className="flex flex-col md:flex-row gap-4 items-end">
+        <SketchBox className="mb-4 md:mb-6" color={isP1 ? 'blue' : 'yellow'}>
+           <div className="flex flex-col md:flex-row gap-2 md:gap-4 items-end">
              <div className="flex-grow w-full">
-               <label className="block font-handwriting text-xl mb-2 text-gray-700">你的核心观点（20字以内）：</label>
+               <label className="block font-handwriting text-lg md:text-xl mb-1 md:mb-2 text-gray-700">你的核心观点（20字内）：</label>
                <SketchInput 
                  value={draftInput}
                  onChange={(e) => setDraftInput(e.target.value)}
                  maxLength={20} 
                  placeholder="例如：豆腐脑必须是咸的！"
-                 className="text-xl bg-white/50 rounded px-2"
+                 className="text-base md:text-xl bg-white/50 rounded px-2"
                />
              </div>
              <SketchButton onClick={handleGenerateArgs} disabled={isLoading || !draftInput} className="whitespace-nowrap w-full md:w-auto">
@@ -362,20 +362,20 @@ const App = () => {
            </div>
         </SketchBox>
 
-        <div className="flex-grow relative min-h-[400px] border-crayon border-2 border-gray-400 bg-white p-6 shadow-inner overflow-hidden rounded-lg">
+        <div className="flex-grow relative min-h-[300px] md:min-h-[400px] border-crayon border-2 border-gray-400 bg-white p-2 md:p-6 shadow-inner overflow-hidden rounded-lg">
           {generatedArgs.length === 0 && !isLoading && (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-300 font-handwriting opacity-80 pointer-events-none select-none">
-              <span className="text-8xl mb-4 opacity-50">💭</span>
-              <span className="text-3xl">输入观点，云端外援团就会出现！</span>
+              <span className="text-6xl md:text-8xl mb-4 opacity-50">💭</span>
+              <span className="text-xl md:text-3xl">输入观点，召唤外援！</span>
             </div>
           )}
           {isLoading && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center font-handwriting text-3xl animate-pulse text-indigo-400 z-10 bg-white/80">
-               <span className="text-6xl mb-6 animate-bounce">🤔</span>
-               正在绞尽脑汁帮你想理由...
+            <div className="absolute inset-0 flex flex-col items-center justify-center font-handwriting text-2xl md:text-3xl animate-pulse text-indigo-400 z-10 bg-white/80">
+               <span className="text-4xl md:text-6xl mb-6 animate-bounce">🤔</span>
+               正在绞尽脑汁...
             </div>
           )}
-          <div className="flex flex-wrap justify-center content-start gap-4 h-full overflow-y-auto scrollbar-hide py-4 pb-20">
+          <div className="flex flex-wrap justify-center content-start gap-2 md:gap-4 h-full overflow-y-auto scrollbar-hide py-2 md:py-4 pb-20">
             {generatedArgs.map((arg, idx) => (
               <FloatingCard 
                 key={idx}
@@ -391,7 +391,7 @@ const App = () => {
         </div>
 
         <SketchButton 
-          className="mt-6 w-full py-4 text-2xl shadow-xl hover:-translate-y-1 z-20" 
+          className="mt-4 md:mt-6 w-full py-3 md:py-4 text-xl md:text-2xl shadow-xl hover:-translate-y-1 z-20" 
           onClick={() => handleDraftComplete(isP1 ? 1 : 2)}
           disabled={currentPlayer.team.length < 3}
           variant="primary"
@@ -414,40 +414,40 @@ const App = () => {
     const currentRoundData = gameState.rounds.find(r => r.roundNumber === roundIndex + 1);
 
     return (
-      <div className="min-h-screen p-4 max-w-2xl mx-auto flex flex-col">
+      <div className="min-h-screen p-2 md:p-4 max-w-2xl mx-auto flex flex-col">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6 bg-white p-3 border-2 border-crayon-sm border-gray-800 shadow-sm sticky top-2 z-30 rounded-lg">
+        <div className="flex justify-between items-center mb-4 md:mb-6 bg-white p-2 md:p-3 border-2 border-crayon-sm border-gray-800 shadow-sm sticky top-1 z-30 rounded-lg">
            <StickFigureAvatar id={1} name={gameState.p1.nickname} size="sm" animate={gameState.isBattleProcessing} />
            <div className="text-center font-handwriting">
-             <div className="text-3xl font-bold text-gray-800 bg-yellow-100 px-6 py-1 transform -rotate-2 inline-block border-2 border-crayon-sm border-yellow-300 shadow-sm">
-               Round {roundIndex + 1} / {MAX_ROUNDS}
+             <div className="text-xl md:text-3xl font-bold text-gray-800 bg-yellow-100 px-4 md:px-6 py-1 transform -rotate-2 inline-block border-2 border-crayon-sm border-yellow-300 shadow-sm">
+               Round {roundIndex + 1}
              </div>
-             <div className="text-sm text-gray-500 max-w-[150px] truncate mt-1 mx-auto">{gameState.topic}</div>
+             <div className="text-xs md:text-sm text-gray-500 max-w-[120px] md:max-w-[150px] truncate mt-1 mx-auto">{gameState.topic}</div>
            </div>
            <StickFigureAvatar id={2} name={gameState.p2.nickname} size="sm" animate={gameState.isBattleProcessing} />
         </div>
 
         {/* BATTLE ARENA */}
-        <div className="flex-grow flex flex-col relative min-h-[500px] bg-white border-2 border-crayon border-gray-300 rounded-lg p-2 shadow-inner mb-24">
+        <div className="flex-grow flex flex-col relative min-h-[50vh] bg-white border-2 border-crayon border-gray-300 rounded-lg p-2 shadow-inner mb-20 md:mb-24">
           
           {/* Waiting / Input State */}
           {isWaitingForManual && (
             <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/5 backdrop-blur-[2px]">
               <SketchBox className="w-full max-w-md shadow-2xl animate-pop border-red-400 bg-[#FFEBEE]">
-                <h3 className="font-handwriting text-3xl mb-2 text-center text-red-600 font-bold">
+                <h3 className="font-handwriting text-2xl md:text-3xl mb-2 text-center text-red-600 font-bold">
                   😲 {manualPlayerName} 没词了！
                 </h3>
-                <p className="font-handwriting mb-6 text-center text-gray-700 text-xl">
+                <p className="font-handwriting mb-4 md:mb-6 text-center text-gray-700 text-lg md:text-xl">
                   快！亲自上场反击！
                 </p>
-                <div className="bg-white p-4 rounded border-2 border-dashed border-gray-300 mb-4 font-handwriting text-center italic text-gray-500 text-lg">
+                <div className="bg-white p-2 md:p-4 rounded border-2 border-dashed border-gray-300 mb-4 font-handwriting text-center italic text-gray-500 text-base md:text-lg">
                    对方说: "{manualPlayerId === 1 ? gameState.p2.team[roundIndex] : gameState.p1.team[roundIndex]}"
                 </div>
                 <SketchInput 
                   value={manualBattleInput}
                   onChange={(e) => setManualBattleInput(e.target.value)}
                   placeholder="输入你的神反击..."
-                  className="mb-6 bg-white rounded border-b-0 border-2 border-gray-300"
+                  className="mb-4 md:mb-6 bg-white rounded border-b-0 border-2 border-gray-300"
                   autoFocus
                 />
                 <SketchButton onClick={() => startNextRound(manualBattleInput)} disabled={!manualBattleInput} className="w-full" variant="danger">
@@ -461,14 +461,14 @@ const App = () => {
           {gameState.isBattleProcessing && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/90 z-10 backdrop-blur-sm rounded-lg">
                <ShoutingAnimation p1Name={gameState.p1.nickname} p2Name={gameState.p2.nickname} />
-               <div className="font-handwriting text-3xl text-indigo-600 mt-6 animate-pulse">
+               <div className="font-handwriting text-2xl md:text-3xl text-indigo-600 mt-2 md:mt-6 animate-pulse">
                  激烈交涉中...
                </div>
             </div>
           )}
 
           {/* Chat Display (Turn by Turn) */}
-          <div ref={chatContainerRef} className="flex-grow overflow-y-auto p-4 space-y-4 scroll-smooth pb-48">
+          <div ref={chatContainerRef} className="flex-grow overflow-y-auto p-2 md:p-4 space-y-2 md:space-y-4 scroll-smooth pb-32 md:pb-48">
             {displayDialogue.length > 0 ? (
                displayDialogue.map((line, idx) => (
                  <ChatBubble 
@@ -481,7 +481,7 @@ const App = () => {
                ))
             ) : (
               !isWaitingForManual && !gameState.isBattleProcessing && (
-                <div className="text-center mt-20 text-gray-300 font-handwriting text-4xl">
+                <div className="text-center mt-20 text-gray-300 font-handwriting text-3xl md:text-4xl">
                    准备开战...
                 </div>
               )
@@ -490,32 +490,32 @@ const App = () => {
 
           {/* Verdict Card (Fixed at bottom when shown) */}
           {showResultCard && currentRoundData && (
-             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white to-transparent pt-10">
+             <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-white via-white to-transparent pt-10">
                <div className="animate-slide-up">
-                 <SketchBox className="bg-[#FFF9C4] border-yellow-400 shadow-xl">
-                   <div className="font-handwriting text-center mb-3 text-2xl font-bold flex items-center justify-center gap-2 text-gray-800">
+                 <SketchBox className="bg-[#FFF9C4] border-yellow-400 shadow-xl p-3 md:p-6">
+                   <div className="font-handwriting text-center mb-2 md:mb-3 text-xl md:text-2xl font-bold flex items-center justify-center gap-2 text-gray-800">
                      <span>⚖️</span> 本轮战况 <span>⚖️</span>
                    </div>
                    
                    {/* Progress Bar */}
-                   <div className="relative h-10 w-full bg-[#FFCCBC] rounded-full border-2 border-gray-800 overflow-hidden mb-2">
+                   <div className="relative h-8 md:h-10 w-full bg-[#FFCCBC] rounded-full border-2 border-gray-800 overflow-hidden mb-2">
                       <div 
                         className="absolute top-0 left-0 h-full bg-[#C5CAE9] transition-all duration-1000 ease-out flex items-center justify-end pr-2 border-r-2 border-gray-800" 
                         style={{ width: `${currentRoundData.voteP1}%` }}
                       >
-                         {currentRoundData.voteP1 > 20 && <span className="text-indigo-900 font-bold font-handwriting mr-2">{currentRoundData.voteP1}人</span>}
+                         {currentRoundData.voteP1 > 20 && <span className="text-indigo-900 font-bold font-handwriting mr-1 md:mr-2 text-sm md:text-base">{currentRoundData.voteP1}人</span>}
                       </div>
                       <div className="absolute top-0 right-0 h-full flex items-center justify-start pl-2">
-                         {currentRoundData.voteP1 < 80 && <span className="text-red-900 font-bold font-handwriting ml-2">{100 - currentRoundData.voteP1}人</span>}
+                         {currentRoundData.voteP1 < 80 && <span className="text-red-900 font-bold font-handwriting ml-1 md:ml-2 text-sm md:text-base">{100 - currentRoundData.voteP1}人</span>}
                       </div>
                    </div>
 
-                   <p className="text-center font-handwriting text-gray-700 text-lg italic bg-white/60 p-2 rounded border border-yellow-300">
+                   <p className="text-center font-handwriting text-gray-700 text-base md:text-lg italic bg-white/60 p-1 md:p-2 rounded border border-yellow-300">
                      " {currentRoundData.reason} "
                    </p>
                  </SketchBox>
                  
-                 <SketchButton onClick={handleNextRoundClick} className="w-full mt-4 text-2xl py-3 shadow-lg hover:-translate-y-1">
+                 <SketchButton onClick={handleNextRoundClick} className="w-full mt-3 md:mt-4 text-xl md:text-2xl py-2 md:py-3 shadow-lg hover:-translate-y-1">
                    {roundIndex < MAX_ROUNDS - 1 ? "👉 进入下一轮" : "🏁 查看最终结果"}
                  </SketchButton>
                </div>
@@ -524,24 +524,24 @@ const App = () => {
         </div>
 
         {/* Floating Huge Surrender Buttons */}
-        <div className="fixed bottom-4 left-0 right-0 flex justify-center gap-6 px-4 z-40 pointer-events-none">
+        <div className="fixed bottom-2 md:bottom-4 left-0 right-0 flex justify-center gap-4 md:gap-6 px-4 z-40 pointer-events-none">
            <div className={`pointer-events-auto transition-all duration-300 transform ${showResultCard ? 'opacity-0 translate-y-20' : 'opacity-100'}`}>
               <button 
                 onClick={() => handleSurrender(1)} 
-                className="bg-white/90 border-4 border-gray-300 rounded-full w-24 h-24 flex flex-col items-center justify-center shadow-lg hover:bg-red-50 hover:border-red-400 hover:scale-110 transition-all animate-wiggle group"
+                className="bg-white/90 border-4 border-gray-300 rounded-full w-16 h-16 md:w-24 md:h-24 flex flex-col items-center justify-center shadow-lg hover:bg-red-50 hover:border-red-400 hover:scale-110 transition-all animate-wiggle group"
               >
-                <span className="text-3xl group-hover:scale-125 transition-transform">🏳️</span>
-                <span className="text-xs font-bold text-gray-500 group-hover:text-red-500 font-handwriting">{gameState.p1.nickname}</span>
+                <span className="text-2xl md:text-3xl group-hover:scale-125 transition-transform">🏳️</span>
+                <span className="text-[10px] md:text-xs font-bold text-gray-500 group-hover:text-red-500 font-handwriting max-w-[50px] truncate">{gameState.p1.nickname}</span>
               </button>
            </div>
            <div className={`pointer-events-auto transition-all duration-300 transform ${showResultCard ? 'opacity-0 translate-y-20' : 'opacity-100'}`}>
               <button 
                 onClick={() => handleSurrender(2)} 
-                className="bg-white/90 border-4 border-gray-300 rounded-full w-24 h-24 flex flex-col items-center justify-center shadow-lg hover:bg-red-50 hover:border-red-400 hover:scale-110 transition-all animate-wiggle group"
+                className="bg-white/90 border-4 border-gray-300 rounded-full w-16 h-16 md:w-24 md:h-24 flex flex-col items-center justify-center shadow-lg hover:bg-red-50 hover:border-red-400 hover:scale-110 transition-all animate-wiggle group"
                 style={{ animationDelay: '1s' }}
               >
-                <span className="text-3xl group-hover:scale-125 transition-transform">🏳️</span>
-                <span className="text-xs font-bold text-gray-500 group-hover:text-red-500 font-handwriting">{gameState.p2.nickname}</span>
+                <span className="text-2xl md:text-3xl group-hover:scale-125 transition-transform">🏳️</span>
+                <span className="text-[10px] md:text-xs font-bold text-gray-500 group-hover:text-red-500 font-handwriting max-w-[50px] truncate">{gameState.p2.nickname}</span>
               </button>
            </div>
         </div>
@@ -565,46 +565,46 @@ const App = () => {
     
     return (
       <div className="min-h-screen p-4 flex flex-col items-center justify-center max-w-2xl mx-auto bg-repeat" style={{ backgroundImage: 'radial-gradient(#ddd 1px, transparent 1px)', backgroundSize: '15px 15px' }}>
-        <h1 className="text-6xl font-handwriting mb-8 text-center text-[#2D3748]">🏆 最终裁决 🏆</h1>
+        <h1 className="text-4xl md:text-6xl font-handwriting mb-4 md:mb-8 text-center text-[#2D3748]">🏆 最终裁决 🏆</h1>
         
-        <SketchBox className="w-full mb-8 p-8 transform rotate-1 bg-white" color="white">
-           <p className="font-handwriting text-3xl text-center mb-10 leading-relaxed text-gray-700">
+        <SketchBox className="w-full mb-8 p-4 md:p-8 transform rotate-1 bg-white" color="white">
+           <p className="font-handwriting text-xl md:text-3xl text-center mb-6 md:mb-10 leading-relaxed text-gray-700">
              {reason}
            </p>
            
            {!gameState.surrenderBy && (
-             <div className="flex justify-between mb-12 font-handwriting text-xl px-4">
+             <div className="flex justify-between mb-8 md:mb-12 font-handwriting text-base md:text-xl px-2 md:px-4">
                 <div className="text-center flex flex-col items-center">
                   <StickFigureAvatar id={1} name={gameState.p1.nickname} size="sm" showName={false} mood="happy" />
-                  <div className="font-bold text-2xl mt-2">{gameState.p1.nickname}</div>
-                  <div className="font-bold text-5xl text-indigo-600 my-2">{gameState.totalP1Votes}</div>
-                  <div className="text-gray-500 bg-gray-100 px-2 rounded">支持票</div>
+                  <div className="font-bold text-lg md:text-2xl mt-2">{gameState.p1.nickname}</div>
+                  <div className="font-bold text-3xl md:text-5xl text-indigo-600 my-2">{gameState.totalP1Votes}</div>
+                  <div className="text-gray-500 bg-gray-100 px-2 rounded text-sm md:text-base">支持票</div>
                 </div>
                 <div className="text-center flex flex-col items-center">
                   <StickFigureAvatar id={2} name={gameState.p2.nickname} size="sm" showName={false} mood="happy" />
-                  <div className="font-bold text-2xl mt-2">{gameState.p2.nickname}</div>
-                  <div className="font-bold text-5xl text-orange-600 my-2">{gameState.totalP2Votes}</div>
-                  <div className="text-gray-500 bg-gray-100 px-2 rounded">支持票</div>
+                  <div className="font-bold text-lg md:text-2xl mt-2">{gameState.p2.nickname}</div>
+                  <div className="font-bold text-3xl md:text-5xl text-orange-600 my-2">{gameState.totalP2Votes}</div>
+                  <div className="text-gray-500 bg-gray-100 px-2 rounded text-sm md:text-base">支持票</div>
                 </div>
              </div>
            )}
 
-           <div className="text-center border-t-4 border-dashed border-gray-200 pt-8 relative">
-              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white px-4 text-gray-400 font-handwriting text-xl">
+           <div className="text-center border-t-4 border-dashed border-gray-200 pt-6 md:pt-8 relative">
+              <div className="absolute -top-4 md:-top-6 left-1/2 transform -translate-x-1/2 bg-white px-2 md:px-4 text-gray-400 font-handwriting text-lg md:text-xl">
                  结果是
               </div>
-              <p className="font-handwriting text-2xl text-gray-600 mb-4">获胜的是...</p>
-              <h2 className="font-handwriting text-7xl font-bold text-red-500 animate-float inline-block tracking-wider drop-shadow-sm">
+              <p className="font-handwriting text-xl md:text-2xl text-gray-600 mb-2 md:mb-4">获胜的是...</p>
+              <h2 className="font-handwriting text-5xl md:text-7xl font-bold text-red-500 animate-float inline-block tracking-wider drop-shadow-sm">
                  🎉 {winnerName} 🎉
               </h2>
            </div>
         </SketchBox>
 
-        <div className="flex flex-col w-full gap-4 max-w-md">
-          <SketchButton onClick={() => setGameState(prev => ({ ...prev, phase: AppPhase.CELEBRATION }))} variant="primary" className="text-2xl py-4 shadow-xl">
+        <div className="flex flex-col w-full gap-2 md:gap-4 max-w-md">
+          <SketchButton onClick={() => setGameState(prev => ({ ...prev, phase: AppPhase.CELEBRATION }))} variant="primary" className="text-xl md:text-2xl py-3 md:py-4 shadow-xl">
              🕊️ 接受结果，和平相处
           </SketchButton>
-          <SketchButton onClick={resetGame} variant="secondary" className="text-2xl py-4 shadow-md">
+          <SketchButton onClick={resetGame} variant="secondary" className="text-xl md:text-2xl py-3 md:py-4 shadow-md">
              😤 不服！再战
           </SketchButton>
         </div>
@@ -629,22 +629,22 @@ const App = () => {
              ))}
           </div>
 
-          <h1 className="text-5xl font-handwriting mb-12 text-center text-[#2D3748] animate-pop leading-tight">
+          <h1 className="text-4xl md:text-5xl font-handwriting mb-8 md:mb-12 text-center text-[#2D3748] animate-pop leading-tight">
              恭喜你们<br/><span className="text-indigo-600">和平解决</span>！
           </h1>
 
-          <div className="flex items-center justify-center gap-4 mb-12 animate-slide-up">
+          <div className="flex items-center justify-center gap-4 mb-8 md:mb-12 animate-slide-up">
               <StickFigureAvatar id={1} name={gameState.p1.nickname} mood="happy" size="lg" animate />
-              <div className="text-6xl animate-bounce">💖</div>
+              <div className="text-4xl md:text-6xl animate-bounce">💖</div>
               <StickFigureAvatar id={2} name={gameState.p2.nickname} mood="happy" size="lg" animate />
           </div>
 
-          <SketchBox className="bg-white/80 p-6 mb-8 max-w-lg text-center font-handwriting text-xl text-gray-600">
+          <SketchBox className="bg-white/80 p-4 md:p-6 mb-8 max-w-lg text-center font-handwriting text-lg md:text-xl text-gray-600">
              吵架虽然能分出胜负，但爱与理解才是生活的解药。<br/>
              给对方一个拥抱吧！
           </SketchBox>
 
-          <SketchButton onClick={resetGame} className="w-full max-w-sm text-2xl py-4 shadow-xl z-10" variant="primary">
+          <SketchButton onClick={resetGame} className="w-full max-w-sm text-xl md:text-2xl py-3 md:py-4 shadow-xl z-10" variant="primary">
              🏠 返回首页
           </SketchButton>
        </div>
@@ -654,5 +654,4 @@ const App = () => {
   return null;
 };
 
-const root = createRoot(document.getElementById('root')!);
-root.render(<App />);
+export default App;

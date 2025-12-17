@@ -16,7 +16,7 @@ export const SketchBox: React.FC<{ children: React.ReactNode; className?: string
   };
 
   return (
-    <div className={`relative ${styles[color]} border-4 border-crayon shadow-[6px_6px_0px_0px_rgba(0,0,0,0.05)] p-6 ${className}`}>
+    <div className={`relative ${styles[color]} border-2 md:border-4 border-crayon shadow-[3px_3px_0px_0px_rgba(0,0,0,0.05)] md:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.05)] p-4 md:p-6 ${className}`}>
       {children}
     </div>
   );
@@ -29,12 +29,12 @@ export const SketchButton: React.FC<{
   className?: string;
   variant?: 'primary' | 'secondary' | 'danger'
 }> = ({ onClick, children, disabled, className = '', variant = 'primary' }) => {
-  const baseStyle = "transition-transform active:scale-95 border-4 border-crayon-sm px-6 py-3 font-bold text-lg cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed font-handwriting rounded-2xl flex items-center justify-center gap-2";
+  const baseStyle = "transition-transform active:scale-95 border-2 md:border-4 border-crayon-sm px-4 py-3 md:px-6 md:py-3 font-bold text-base md:text-lg cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed font-handwriting rounded-xl md:rounded-2xl flex items-center justify-center gap-2";
   
   const variants = {
-    primary: "bg-[#fdba74] text-white border-[#fb923c] shadow-[4px_4px_0px_0px_#fb923c] hover:bg-[#fb923c]",
-    secondary: "bg-[#a5f3fc] text-[#0e7490] border-[#22d3ee] shadow-[4px_4px_0px_0px_#22d3ee] hover:bg-[#67e8f9]",
-    danger: "bg-[#fda4af] text-[#881337] border-[#f43f5e] shadow-[4px_4px_0px_0px_#f43f5e] hover:bg-[#fb7185]"
+    primary: "bg-[#fdba74] text-white border-[#fb923c] shadow-[3px_3px_0px_0px_#fb923c] md:shadow-[4px_4px_0px_0px_#fb923c] hover:bg-[#fb923c]",
+    secondary: "bg-[#a5f3fc] text-[#0e7490] border-[#22d3ee] shadow-[3px_3px_0px_0px_#22d3ee] md:shadow-[4px_4px_0px_0px_#22d3ee] hover:bg-[#67e8f9]",
+    danger: "bg-[#fda4af] text-[#881337] border-[#f43f5e] shadow-[3px_3px_0px_0px_#f43f5e] md:shadow-[4px_4px_0px_0px_#f43f5e] hover:bg-[#fb7185]"
   };
 
   return (
@@ -52,7 +52,7 @@ export const SketchInput: React.FC<React.InputHTMLAttributes<HTMLInputElement>> 
   return (
     <input 
       {...props}
-      className={`w-full bg-white/60 border-2 border-dashed border-gray-400 focus:border-[#fb923c] focus:bg-white rounded-xl outline-none py-3 px-4 font-handwriting text-xl placeholder-gray-400 transition-all ${props.className || ''}`}
+      className={`w-full bg-white/60 border-2 border-dashed border-gray-400 focus:border-[#fb923c] focus:bg-white rounded-lg md:rounded-xl outline-none py-2 px-3 md:py-3 md:px-4 font-handwriting text-lg md:text-xl placeholder-gray-400 transition-all ${props.className || ''}`}
     />
   );
 };
@@ -70,7 +70,10 @@ export const StickFigureAvatar: React.FC<{
   customColor?: string; // Optional override
 }> = ({ id, name, size = 'lg', className = '', showName = true, animate = false, mood = 'neutral', variant = 'human', customColor }) => {
   const isP1 = id === 1;
-  const sizeClass = size === 'lg' ? "w-44 h-44" : "w-16 h-16";
+  // Responsive sizing: Smaller on mobile, Larger on Desktop
+  const sizeClass = size === 'lg' 
+    ? "w-28 h-28 md:w-44 md:h-44" 
+    : "w-10 h-10 md:w-16 md:h-16";
   
   // Default Colors: P1 Blue-ish, P2 Orange-ish
   const defaultColor = isP1 ? "#6366f1" : "#f97316"; 
@@ -263,7 +266,7 @@ export const StickFigureAvatar: React.FC<{
       </div>
       {showName && (
         <span 
-          className={`font-handwriting font-bold ${size === 'lg' ? 'text-xl mt-2' : 'text-xs mt-1'} truncate max-w-[150px] bg-white/80 px-2 py-0.5 rounded-lg border-2 border-dashed ${isP1 ? 'border-indigo-300 text-indigo-600' : 'border-orange-300 text-orange-600'}`}
+          className={`font-handwriting font-bold ${size === 'lg' ? 'text-lg md:text-xl mt-2' : 'text-[10px] md:text-xs mt-1'} truncate max-w-[100px] md:max-w-[150px] bg-white/80 px-2 py-0.5 rounded-lg border-2 border-dashed ${isP1 ? 'border-indigo-300 text-indigo-600' : 'border-orange-300 text-orange-600'}`}
         >
           {name || (isP1 ? "甲方" : "乙方")}
         </span>
@@ -275,7 +278,7 @@ export const StickFigureAvatar: React.FC<{
 // New: Shouting Match Animation
 export const ShoutingAnimation: React.FC<{ p1Name: string; p2Name: string }> = ({ p1Name, p2Name }) => {
   return (
-    <div className="relative w-full h-64 flex items-center justify-center gap-8 overflow-hidden">
+    <div className="relative w-full h-48 md:h-64 flex items-center justify-center gap-2 md:gap-8 overflow-hidden">
        {/* Background Action Lines */}
        <div className="absolute inset-0 flex items-center justify-center opacity-30">
           <div className="w-[150%] h-[20px] bg-yellow-200 rotate-12 absolute animate-pulse"></div>
@@ -283,16 +286,16 @@ export const ShoutingAnimation: React.FC<{ p1Name: string; p2Name: string }> = (
        </div>
 
        {/* P1 Shouting */}
-       <div className="relative z-10">
+       <div className="relative z-10 scale-75 md:scale-100">
          <StickFigureAvatar id={1} name={p1Name} mood="shouting" animate={true} size="lg" />
          <div className="absolute -top-4 -right-8 text-4xl animate-bounce">🗣️</div>
        </div>
 
        {/* Impact Effect */}
-       <div className="z-20 text-6xl animate-ping text-red-500 font-bold">VS</div>
+       <div className="z-20 text-4xl md:text-6xl animate-ping text-red-500 font-bold">VS</div>
 
        {/* P2 Shouting */}
-       <div className="relative z-10">
+       <div className="relative z-10 scale-75 md:scale-100">
          <StickFigureAvatar id={2} name={p2Name} mood="shouting" animate={true} size="lg" />
          <div className="absolute -top-4 -left-8 text-4xl animate-bounce delay-100">🗯️</div>
        </div>
@@ -318,8 +321,8 @@ export const FloatingCard: React.FC<{
       onClick={onClick}
       className={`
         cursor-pointer transition-all duration-200 transform
-        border-crayon-sm border-2 p-2 m-2 flex items-center gap-2 max-w-[240px] text-left
-        font-handwriting text-base leading-snug select-none animate-pop rounded-xl
+        border-crayon-sm border-2 p-2 m-1 md:m-2 flex items-center gap-2 max-w-[240px] text-left
+        font-handwriting text-sm md:text-base leading-snug select-none animate-pop rounded-xl
         ${selected 
           ? 'bg-[#fef9c3] text-[#854d0e] border-[#eab308] scale-105 shadow-md rotate-0 z-10' 
           : 'bg-white text-gray-600 border-gray-200 hover:-translate-y-1 hover:bg-gray-50 hover:border-gray-300 shadow-sm'
@@ -331,7 +334,7 @@ export const FloatingCard: React.FC<{
       }}
     >
       {/* Mini Avatar in the card */}
-      <div className="shrink-0 scale-75 origin-left">
+      <div className="shrink-0 scale-75 origin-left hidden md:block">
          <StickFigureAvatar 
            id={isP1Side ? 1 : 2} 
            name="" 
@@ -344,7 +347,7 @@ export const FloatingCard: React.FC<{
       </div>
       
       {/* Bubble text */}
-      <div className="relative bg-white/50 p-2 rounded-lg border border-dashed border-gray-300 text-sm font-bold">
+      <div className="relative bg-white/50 p-2 rounded-lg border border-dashed border-gray-300 font-bold w-full">
         {text}
       </div>
     </div>
@@ -359,8 +362,8 @@ export const ChatBubble: React.FC<{
   roundIndex?: number;
 }> = ({ text, isP1, speakerName, roundIndex = 0 }) => {
   return (
-    <div className={`flex w-full mb-6 ${isP1 ? 'justify-start' : 'justify-end'} animate-slide-up group`}>
-      <div className={`flex max-w-[85%] items-end ${isP1 ? 'flex-row' : 'flex-row-reverse'} gap-2`}>
+    <div className={`flex w-full mb-4 md:mb-6 ${isP1 ? 'justify-start' : 'justify-end'} animate-slide-up group`}>
+      <div className={`flex max-w-[95%] md:max-w-[85%] items-end ${isP1 ? 'flex-row' : 'flex-row-reverse'} gap-1 md:gap-2`}>
         <StickFigureAvatar 
            id={isP1 ? 1 : 2} 
            name={speakerName} 
@@ -370,7 +373,7 @@ export const ChatBubble: React.FC<{
            mood="angry"
         />
         <div className={`
-          relative px-5 py-3 border-2 border-crayon-sm text-base font-handwriting leading-relaxed shadow-sm
+          relative px-4 py-2 md:px-5 md:py-3 border-2 border-crayon-sm text-sm md:text-base font-handwriting leading-relaxed shadow-sm
           ${isP1 
             ? 'bg-[#e0e7ff] text-[#3730a3] border-[#a5b4fc] rounded-[20px_20px_20px_4px]' 
             : 'bg-[#ffedd5] text-[#9a3412] border-[#fdba74] rounded-[20px_20px_4px_20px]'
